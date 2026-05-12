@@ -1,0 +1,12 @@
+.dub
+docs.json
+__dummy.html
+/personal-records-vault
+personal-records-vault.exe
+personal-records-vault.pdb
+*.o
+*.obj
+*.lst
+libpersonal-records-vault.a
+personal-records-vault.lib
+personal-records-vault-test-*

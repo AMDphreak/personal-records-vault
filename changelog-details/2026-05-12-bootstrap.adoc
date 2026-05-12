@@ -1,0 +1,9 @@
+= 2026-05-12 — Bootstrap
+
+Initial repository layout:
+
+* `dub.sdl` package `personal-records-vault` with a minimal `source/app.d` entrypoint.
+* AsciiDoc documentation describing vision and explicit non-goals for the first milestones.
+* Changelog wiring per repository convention.
+
+No persistence, cryptography, or credential exchange is implemented yet.

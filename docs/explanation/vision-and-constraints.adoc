@@ -1,0 +1,63 @@
+= Vision and constraints
+
+This document captures the product direction discussed for a *personal records vault*: structured life and health data, selective sharing with providers and employers, multi-modal ingestion (documents, audio, video), and decentralized or hardware-assisted trust.
+
+It also records engineering constraints so the D codebase does not pretend to ship features that belong in other runtimes or regulated domains.
+
+== Goals (north star)
+
+. Hold structured personal history (including health and housing) primarily under user control, with optional sync to user-chosen hosting.
+. Support an open interchange format so receiving systems can ingest data without fragile screen scraping.
+. Provide a *fallback* automation path (for example, guided form filling) where partners refuse structured import.
+. Index content for search and recomposable views using on-device models where feasible.
+. Anchor issuer-signed facts with verifiable credentials so relying parties can validate provenance without a permanent central dossier.
+
+== Non-goals for the near term
+
+. Replacing electronic health record systems inside clinics.
+. Promising regulatory certifications (HIPAA, GDPR tooling, FDA SaMD) without a compliance program.
+. Storing large imaging blobs inside a typical secure-element hardware wallet.
+
+== Platform split: D versus other runtimes
+
+*Core vault, storage engines, performance-sensitive parsing, and desktop tooling* fit D well.
+
+https://veramo.io[Veramo] is a TypeScript/JavaScript DID and verifiable credential toolkit. A realistic integration is a *sidecar* (local Node service), a small CLI invoked from D, or a future WASM boundary—not a from-scratch reimplementation of every Veramo plugin in D unless that becomes a dedicated project.
+
+== Hardware wallets and bulk storage
+
+Hardware wallets and similar secure elements excel at *key custody and signing*. They do not replace encrypted bulk storage on disk or on a phone. A coherent architecture is:
+
+* keys and high-value signing operations on the secure element;
+* ciphertext and indexes on local storage the user controls;
+* optional cloud mirrors wrapped with keys the hardware protects.
+
+== Immutability versus real medical data
+
+Append-only logs are valuable for auditability, but clinical and administrative reality includes corrections, clarifications, and superseding documents. Prefer *versioned or append-only events* with explicit `supersedes` / `revokes` semantics over a single frozen blob that can never be amended.
+
+== Hiding records from patients
+
+Default stance: patients should be able to read their records in ordinary circumstances. Some jurisdictions and care settings have nuanced rules for specific categories; product policy belongs in legal review, not in code comments.
+
+== Multi-modal AI indexing
+
+OCR, speech, and video understanding are feasible on capable local machines but vary widely by device. Treat model outputs as *proposals* that feed a review queue for high-stakes fields, and keep provenance (which model, which file region, when).
+
+== Form-filling fallback
+
+Browser automation breaks with site changes and may conflict with terms of service. Treat standards-based exchange as the primary path and automation as a best-effort assistant with user visibility and consent.
+
+== Suggested data plane (sketch)
+
+[cols="1,2"]
+|===
+| Layer | Notes
+
+| Event log | Append-only user-held events referencing content hashes
+| Document store | FHIR-like or JSON payloads keyed by content id
+| Graph index | Derived edges for traversal and permissions views
+| Credential anchors | VC metadata and issuer DIDs resolved via chosen methods
+|===
+
+This sketch is not a schema commitment; it names separation of concerns before choosing specific databases.

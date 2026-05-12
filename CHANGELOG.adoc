@@ -1,0 +1,9 @@
+= Changelog
+
+All notable changes to this project are documented in this file and in link:changelog-details/[per-date detail files].
+
+== [Unreleased]
+
+=== Added
+
+* Bootstrap D `dub` executable and documentation skeleton. Details: link:changelog-details/2026-05-12-bootstrap.adoc[2026-05-12 — Bootstrap].

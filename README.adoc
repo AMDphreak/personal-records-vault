@@ -1,0 +1,32 @@
+= Personal Records Vault
+
+Local-first, user-held structured personal records with hooks for verifiable credentials, multi-modal indexing, and selective disclosure toward providers and employers.
+
+WARNING: This repository is experimental research software. It is not a medical device, not a HIPAA compliance product, and not legal advice about health records in your jurisdiction.
+
+== Changelog
+
+See link:CHANGELOG.adoc[CHANGELOG.adoc] and the link:changelog-details/[changelog-details] folder for dated design notes.
+
+== Documentation
+
+* link:docs/explanation/vision-and-constraints.adoc[Vision, constraints, and open questions]
+
+== Build
+
+[source,powershell]
+----
+dub build
+dub run
+----
+
+== Repository layout
+
+[cols="1,2"]
+|===
+| Path | Purpose
+
+| `source/` | D entrypoint and future `vault` modules
+| `docs/explanation/` | Architecture and product reasoning (AsciiDoc)
+| `changelog-details/` | Dated narrative notes linked from the changelog
+|===
