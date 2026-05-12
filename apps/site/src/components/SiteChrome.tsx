@@ -22,6 +22,12 @@ export default function SiteChrome(props: ParentProps) {
           <A href="/login" class="chrome__link">
             Web sign-in
           </A>
+          <A href="/identity" class="chrome__link">
+            Identity
+          </A>
+          <A href="/providers" class="chrome__link">
+            Providers
+          </A>
           <A href="/app" class="chrome__link">
             Web vault
           </A>
