@@ -99,7 +99,7 @@ const App: Component = () => {
             )}
           </Show>
           <p class="muted" style={{ 'margin-top': '0.85rem' }}>
-            solid-ui is installed for future UI primitives; this screen uses plain HTML controls for now.
+            This screen uses plain HTML controls for now; a component library (for example Kobalte) can be added later if we want richer shared UI with the static site.
           </p>
         </section>
 

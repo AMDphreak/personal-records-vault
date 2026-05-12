@@ -105,7 +105,7 @@ Codesigning and macOS notarization are not configured yet; expect unsigned macOS
 |===
 | Path | Purpose
 
-| `apps/desktop/` | Electron main/preload/renderer (SolidJS; `solid-ui` npm listed for future UI experiments)
+| `apps/desktop/` | Electron main/preload/renderer (SolidJS; plain controls for now)
 | `apps/site/` | SolidStart 1 **static** marketing site + web vault shell (`@prv/site`, Netlify publish dir `.output/public`)
 | `apps/extension/` | MV3 WebExtension popup scaffold
 | `netlify.toml` | Netlify build and publish configuration for the static site

@@ -9,10 +9,14 @@ All notable changes to this project are documented in this file and in link:chan
 * Electron + SolidJS desktop shell (`apps/desktop`) with USB-oriented vault path picker, demo graph visualization, and `electron-builder` installer configuration for Windows, macOS, and Linux.
 * WebExtension scaffold (`apps/extension`) for Chrome, Edge, and Firefox MV3.
 * GitHub Actions workflows for CI builds and tagged desktop releases (artifact uploads).
-* `solid-ui` dependency (wired next in renderer components).
-* SolidStart 1 static marketing site in `apps/site` (`@prv/site`) with downloads, local `sessionStorage` sign-in, and File System Access folder browsing; Netlify config at repo root. Details: link:changelog-details/2026-05-12-static-site.adoc[2026-05-12 — Static marketing site].
+* SolidStart 1 static site in `apps/site` (`@prv/site`): Kobalte UI, Veramo `did:key` identity, provider export + ephemeral preview, vault merge, privacy hub, Netlify config at repo root. Details: link:changelog-details/2026-05-12-static-site.adoc[2026-05-12 — Static marketing site].
 * Bootstrap D `dub` executable and documentation skeleton (now under `native/cli`). Details: link:changelog-details/2026-05-12-bootstrap.adoc[2026-05-12 — Bootstrap].
 
 === Changed
 
 * Primary UX stack moved from D to Electron; D prototype relocated to `native/cli`. Details: link:changelog-details/2026-05-12-electron-monorepo.adoc[2026-05-12 — Electron monorepo].
+* Dropped the npm `solid-ui` (SolidOS) dependency from the desktop app; keep **@kobalte/core** on the static site and plain HTML controls in the desktop shell until a deliberate shared design system is chosen.
+
+=== Fixed
+
+* `@prv/site` production client bundle on Linux/Netlify: `@noble/hashes` Vite aliases now use `require.resolve` so pnpm’s store layout can resolve `sha2.js` / `legacy.js` targets.
