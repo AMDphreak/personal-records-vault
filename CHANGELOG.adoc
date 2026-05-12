@@ -21,3 +21,4 @@ All notable changes to this project are documented in this file and in link:chan
 === Fixed
 
 * `@prv/site` production client bundle on Linux/Netlify: `@noble/hashes` Vite aliases now use `require.resolve` so pnpm’s store layout can resolve `sha2.js` / `legacy.js` targets.
+* `@prv/site` Vinxi client router build (Netlify): `src/entry-client.tsx` now default-exports the `mount(...)` result so Rollup can bundle `virtual:$vinxi/handler/client` (Vinxi re-exports `mod.default` from the client entry).

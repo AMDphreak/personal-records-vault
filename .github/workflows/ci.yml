@@ -1,4 +1,4 @@
-name: CI
+name: "CI: monorepo build (desktop · extension · site · SDK)"
 
 on:
   push:
@@ -12,6 +12,7 @@ concurrency:
 
 jobs:
   build:
+    name: "Ubuntu — pnpm build all workspace packages"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
