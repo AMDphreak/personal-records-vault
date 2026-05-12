@@ -4,9 +4,15 @@
   "packageManager": "pnpm@9.15.4",
   "scripts": {
     "dev": "pnpm --filter @prv/desktop dev",
-    "build": "pnpm --filter @prv/desktop build && pnpm --filter @prv/extension build && pnpm --filter @prv/sdk build",
+    "build": "pnpm --filter @prv/desktop build && pnpm --filter @prv/extension build && pnpm --filter @prv/sdk build && pnpm --filter @prv/site build",
     "dist": "pnpm --filter @prv/desktop dist",
     "build:extension": "pnpm --filter @prv/extension build",
-    "dev:extension": "pnpm --filter @prv/extension dev"
+    "dev:extension": "pnpm --filter @prv/extension dev",
+    "dev:site": "pnpm --filter @prv/site dev",
+    "build:site": "pnpm --filter @prv/site build",
+    "preview:site": "pnpm --filter @prv/site preview"
+  },
+  "dependencies": {
+    "core-util-is": "^1.0.3"
   }
 }

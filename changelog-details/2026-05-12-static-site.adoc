@@ -1,0 +1,16 @@
+= 2026-05-12 — Static marketing site
+
+Added `apps/site` as `@prv/site`, a **SolidStart 1.3** application on **Vinxi** with `server.preset: "static"` so production output is plain files under `apps/site/.output/public` for Netlify.
+
+Routes:
+
+* `/` — overview and calls to action
+* `/download` — links to GitHub releases and sources
+* `/login` — local-only session marker in `sessionStorage` (not cloud auth)
+* `/app` — web vault shell using `showDirectoryPicker` where supported, with `clientOnly` loading for browser-only APIs
+
+UI uses **@kobalte/core** instead of the npm package `solid-ui`, because `solid-ui` on npm is the SolidOS linked-data widget set, not a general-purpose design system.
+
+Root link:netlify.toml[`netlify.toml`] wires Netlify `build` and `publish` paths. CI now runs `pnpm --filter @prv/site build`.
+
+SolidStart **2.x alpha** was attempted first but conflicted with shared Nitro/`h3` versions inside the monorepo; v1 remains the supported static baseline until the ecosystem stabilizes.

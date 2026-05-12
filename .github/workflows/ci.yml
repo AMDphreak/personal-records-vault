@@ -38,6 +38,9 @@ jobs:
       - name: Build extension (Vite)
         run: pnpm --filter @prv/extension build
 
+      - name: Build marketing site (SolidStart static)
+        run: pnpm --filter @prv/site build
+
       - name: Build provider SDK (TypeScript)
         run: pnpm --filter @prv/sdk build
 

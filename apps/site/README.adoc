@@ -1,0 +1,16 @@
+= `@prv/site` — marketing and web vault shell
+
+SolidStart **1.3** on **Vinxi** with `server.preset: "static"` so `pnpm build` emits prerendered HTML under `.output/public` for Netlify.
+
+== UI note (`solid-ui` vs Kobalte)
+
+The npm package `solid-ui` resolves to **SolidOS** linked-data widgets (RDF/LDP), which is not a general-purpose design system for this marketing site. This package uses **@kobalte/core** for accessible buttons, labels, and text fields instead.
+
+== Local vault in the browser
+
+The `/app` route uses the **File System Access API** (`showDirectoryPicker`) where the browser supports it. Data stays on disk; the static site never receives your files on a server. Safari and some locked-down profiles may not expose the API—use the desktop app when the browser cannot grant folder access.
+
+== Related packages
+
+* Desktop: `apps/desktop`
+* OpenAPI: `spec/openapi/prv-local.openapi.yaml`

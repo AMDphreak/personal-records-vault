@@ -24,6 +24,9 @@ pnpm-debug.log*
 # Electron / Vite
 apps/desktop/out
 apps/desktop/release
+apps/extension/dist
+apps/site/.output
+apps/site/.vinxi
 packages/sdk/dist
 
 # OS
