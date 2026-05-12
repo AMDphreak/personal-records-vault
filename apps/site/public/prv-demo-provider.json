@@ -1,0 +1,25 @@
+{
+  "schema": "https://github.com/AMDphreak/personal-records-vault#demo-provider-export-v1",
+  "exportedAt": "2026-05-12T12:00:00.000Z",
+  "submissionChain": [
+    {
+      "step": 1,
+      "submittedAt": "2026-05-01T10:00:00.000Z",
+      "provider": "did:web:demo.clinic.example",
+      "summary": "Intake form received"
+    },
+    {
+      "step": 2,
+      "submittedAt": "2026-05-02T14:30:00.000Z",
+      "provider": "did:web:lab.example",
+      "summary": "Lab results released to subject"
+    },
+    {
+      "step": 3,
+      "submittedAt": "2026-05-03T09:15:00.000Z",
+      "provider": "did:web:records.example",
+      "summary": "Final packet sealed"
+    }
+  ],
+  "note": "Static demo payload shipped with the site. Real providers should return their own JSON and enable CORS (or offer a same-origin proxy) for browser fetches."
+}

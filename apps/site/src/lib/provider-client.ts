@@ -11,7 +11,11 @@ export type ProviderExportRequest = {
  * Fetches a provider export bundle. This is a thin GET wrapper — real deployments must align on auth, signatures, and CORS.
  */
 export async function fetchProviderExport(req: ProviderExportRequest): Promise<string> {
-  const url = new URL(req.exportBaseUrl);
+  const base =
+    typeof window !== "undefined" && window.location?.href
+      ? window.location.href
+      : "https://local.invalid/";
+  const url = new URL(req.exportBaseUrl, base);
   url.searchParams.set("subjectDid", req.subjectDid);
   const res = await fetch(url.toString(), {
     method: "GET",

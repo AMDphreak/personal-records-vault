@@ -3,6 +3,9 @@
  */
 import type { Agent } from "@veramo/core";
 
+/** Single localStorage key used by {@link BrowserLocalStorageStore} for all JSON Veramo tables in this app. */
+export const PRV_VERAMO_STORAGE_KEY = "prv-veramo-v1";
+
 let cached: Agent | null = null;
 
 export async function getOrCreatePrvVeramoAgent(): Promise<Agent> {
@@ -29,7 +32,7 @@ export async function getOrCreatePrvVeramoAgent(): Promise<Agent> {
     import("@veramo/credential-w3c")
   ]);
 
-  const jsonStore = BrowserLocalStorageStore.fromLocalStorage("prv-veramo-v1");
+  const jsonStore = BrowserLocalStorageStore.fromLocalStorage(PRV_VERAMO_STORAGE_KEY);
   const dataStore = new DataStoreJson(jsonStore);
   const didStore = new DIDStoreJson(jsonStore);
   const keyStore = new KeyStoreJson(jsonStore);
@@ -56,4 +59,15 @@ export async function getOrCreatePrvVeramoAgent(): Promise<Agent> {
 
 export function resetPrvVeramoAgentCache(): void {
   cached = null;
+}
+
+/** Removes persisted Veramo JSON from localStorage and drops the in-memory agent. */
+export function clearPrvVeramoBrowserStorage(): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.removeItem(PRV_VERAMO_STORAGE_KEY);
+  } catch {
+    /* quota or private mode */
+  }
+  resetPrvVeramoAgentCache();
 }

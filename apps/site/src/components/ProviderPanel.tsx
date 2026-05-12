@@ -9,8 +9,15 @@ import {
 import { fetchProviderExport, getActiveSubjectDid } from "~/lib/provider-client";
 import { mergeEphemeralIntoVault } from "~/lib/vault-merge";
 
+function defaultDemoExportUrl(): string {
+  if (typeof window === "undefined" || !window.location?.origin) {
+    return "/prv-demo-provider.json";
+  }
+  return new URL("/prv-demo-provider.json", window.location.origin).href;
+}
+
 export default function ProviderPanel() {
-  const [url, setUrl] = createSignal("https://example.org/prv-export");
+  const [url, setUrl] = createSignal(defaultDemoExportUrl());
   const [error, setError] = createSignal<string | null>(null);
   const [busy, setBusy] = createSignal(false);
   const [blobs, setBlobs] = createSignal(listEphemeral());
@@ -19,6 +26,7 @@ export default function ProviderPanel() {
   const blind = createMemo(() => isBlind());
 
   onMount(() => {
+    setUrl(defaultDemoExportUrl());
     const u1 = subscribeEphemeral(() => setBlobs(listEphemeral()));
     const u2 = subscribePrivacy(() => setBlobs(listEphemeral()));
     onCleanup(() => {
@@ -37,7 +45,14 @@ export default function ProviderPanel() {
     try {
       const did = await getActiveSubjectDid();
       const body = await fetchProviderExport({ exportBaseUrl: url(), subjectDid: did });
-      pushEphemeral(new URL(url()).host, body);
+      const label = (() => {
+        try {
+          return new URL(url(), window.location.href).hostname;
+        } catch {
+          return "provider";
+        }
+      })();
+      pushEphemeral(label, body);
       setBlobs(listEphemeral());
     } catch (e) {
       setError(e instanceof Error ? e.message : "Request failed (check CORS and URL).");
@@ -63,7 +78,8 @@ export default function ProviderPanel() {
       <p>
         Request an export from a provider URL (GET with <code>subjectDid</code> query). The response is held in memory
         for a short TTL, then dropped. Merge appends JSON lines to <code>prv-provider-merge.jsonl</code> in your
-        selected vault folder.
+        selected vault folder. A same-origin demo file is pre-filled (<code>/prv-demo-provider.json</code>) so you can
+        try the flow without a third-party server.
       </p>
 
       <Show when={blind()}>

@@ -1,6 +1,6 @@
 import { Button } from "@kobalte/core/button";
 import { createMemo, createSignal, For, onCleanup, onMount, Show } from "solid-js";
-import { getOrCreatePrvVeramoAgent } from "~/lib/veramo/agent-browser";
+import { clearPrvVeramoBrowserStorage, getOrCreatePrvVeramoAgent } from "~/lib/veramo/agent-browser";
 import { isBlind, redactLabel, subscribePrivacy } from "~/lib/privacy-hub";
 
 type CredRow = { hash: string; summary: string };
@@ -57,6 +57,19 @@ export default function IdentityPanel() {
     }
   };
 
+  const clearLocalIdentity = () => {
+    if (typeof window === "undefined" || blind()) return;
+    if (
+      !window.confirm(
+        "Remove all Veramo DIDs, keys, and stored credentials from this browser profile? This cannot be undone."
+      )
+    ) {
+      return;
+    }
+    clearPrvVeramoBrowserStorage();
+    void refresh();
+  };
+
   const createDid = async () => {
     setBusy(true);
     setError(null);
@@ -95,6 +108,9 @@ export default function IdentityPanel() {
         </Button>
         <Button type="button" disabled={busy() || blind()} onClick={() => void createDid()}>
           Create another DID
+        </Button>
+        <Button type="button" disabled={busy() || blind()} onClick={clearLocalIdentity}>
+          Remove local Veramo data…
         </Button>
       </div>
 

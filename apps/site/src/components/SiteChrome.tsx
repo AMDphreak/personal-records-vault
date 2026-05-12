@@ -1,10 +1,30 @@
 import { A } from "@solidjs/router";
 import type { ParentProps } from "solid-js";
+import { createSignal, onCleanup, onMount, Show } from "solid-js";
 import { Button } from "@kobalte/core/button";
+import { isBlind, subscribePrivacy } from "~/lib/privacy-hub";
 import { clearSession, readSession } from "~/lib/session";
 
 export default function SiteChrome(props: ParentProps) {
-  const session = () => readSession();
+  const [privacyEpoch, setPrivacyEpoch] = createSignal(0);
+
+  onMount(() => {
+    const off = subscribePrivacy(() => setPrivacyEpoch((n) => n + 1));
+    onCleanup(off);
+  });
+
+  const session = () => {
+    void privacyEpoch();
+    return readSession();
+  };
+
+  const sessionHint = () => {
+    void privacyEpoch();
+    const s = readSession();
+    if (!s) return null;
+    if (isBlind()) return "Signed in (identity withheld)";
+    return `Signed in as ${s.email}`;
+  };
 
   return (
     <div class="chrome">
@@ -31,11 +51,14 @@ export default function SiteChrome(props: ParentProps) {
           <A href="/app" class="chrome__link">
             Web vault
           </A>
-          {session() ? (
+          <Show when={session()}>
+            <span class="chrome__link" style={{ opacity: "0.85" }}>
+              {sessionHint()}
+            </span>
             <Button class="chrome__btn" onClick={() => clearSession()}>
               Sign out
             </Button>
-          ) : null}
+          </Show>
         </nav>
       </header>
       <main class="chrome__main">{props.children}</main>

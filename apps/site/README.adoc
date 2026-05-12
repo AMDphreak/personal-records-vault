@@ -10,7 +10,14 @@ The npm package `solid-ui` resolves to **SolidOS** linked-data widgets (RDF/LDP)
 
 The `/app` route uses the **File System Access API** (`showDirectoryPicker`) where the browser supports it. Data stays on disk; the static site never receives your files on a server. Safari and some locked-down profiles may not expose the API—use the desktop app when the browser cannot grant folder access.
 
-== Related packages
+== Provider exports and CORS
 
-* Desktop: `apps/desktop`
-* OpenAPI: `spec/openapi/prv-local.openapi.yaml`
+The `/providers` route performs a browser `fetch` to the URL you supply.
+Third-party hosts must send https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS[CORS] headers allowing your deployed origin (or you must place a small proxy on the same origin).
+The static demo file `public/prv-demo-provider.json` is served from the site itself so you can exercise download, preview, and merge without cross-origin setup.
+
+== Clearing Veramo in the browser
+
+On `/identity`, *Remove local Veramo data* deletes the `prv-veramo-v1` localStorage backing and resets the in-memory agent.
+This is separate from *Lock & expunge* on the providers page, which clears RAM and locks the UI when vault trust is lost but does not erase persisted DIDs unless you use the identity clear action.
+
