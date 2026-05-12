@@ -1,5 +1,7 @@
 [build]
-  command = "pnpm install && pnpm --filter @prv/site build"
+  # Netlify’s Node image may not expose pnpm until Corepack activates the version from `package.json#packageManager`.
+  # Leave the site UI "Base directory" at repo root so `pnpm-lock.yaml` and the workspace are visible.
+  command = "corepack enable && corepack prepare pnpm@9.15.4 --activate && pnpm install --frozen-lockfile && pnpm --filter @prv/site build"
   publish = "apps/site/.output/public"
 
 [build.environment]
