@@ -38,6 +38,9 @@ jobs:
       - name: Build extension (Vite)
         run: pnpm --filter @prv/extension build
 
+      - name: Build provider SDK (TypeScript)
+        run: pnpm --filter @prv/sdk build
+
       - name: Build optional D CLI
         run: |
           if command -v dub >/dev/null 2>&1; then

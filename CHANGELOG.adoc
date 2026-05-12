@@ -10,6 +10,7 @@ All notable changes to this project are documented in this file and in link:chan
 * WebExtension scaffold (`apps/extension`) for Chrome, Edge, and Firefox MV3.
 * GitHub Actions workflows for CI builds and tagged desktop releases (artifact uploads).
 * `solid-ui` dependency (wired next in renderer components).
+* OpenAPI + JSON Schema contracts under `spec/` and TypeScript reference SDK `packages/sdk` (`@prv/sdk`) for care-provider integrations. Details: link:changelog-details/2026-05-14-provider-sdk.adoc[2026-05-14 — Provider SDK foundation].
 * Bootstrap D `dub` executable and documentation skeleton (now under `native/cli`). Details: link:changelog-details/2026-05-12-bootstrap.adoc[2026-05-12 — Bootstrap].
 
 === Changed

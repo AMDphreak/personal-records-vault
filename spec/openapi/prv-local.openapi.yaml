@@ -1,0 +1,198 @@
+openapi: 3.0.3
+info:
+  title: Personal Records Vault — Local Provider API
+  version: 0.1.0
+  description: |
+    Contract for integrations with the Personal Records Vault desktop host.
+
+    Intended deployment: HTTP on loopback (127.0.0.1) with optional mutual TLS or
+    capability tokens in a later revision. Care-provider EHR modules, portals, and
+    middleware should treat this document as the cross-language source of truth.
+
+    Client generation: OpenAPI Generator, Kiota, or openapi-fetch + openapi-typescript
+    for TypeScript. Native stacks (Java, C#, Python, Go) should consume this file from
+    `spec/openapi/` rather than hand-copying field names.
+  license:
+    name: BSL-1.0
+    url: https://opensource.org/licenses/BSL-1.0
+
+servers:
+  - url: "http://127.0.0.1:{port}/v0"
+    description: Local desktop host (default port is illustrative only).
+    variables:
+      port:
+        default: "17430"
+
+tags:
+  - name: meta
+    description: Host diagnostics
+  - name: graph
+    description: Read-only structural views of the user's vault graph
+  - name: exchange
+    description: Structured import and export for mapped clinical or administrative payloads
+
+paths:
+  /health:
+    get:
+      tags: [meta]
+      operationId: health
+      summary: Liveness and version probe
+      responses:
+        "200":
+          description: Host is running
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+
+  /graph/summary:
+    get:
+      tags: [graph]
+      operationId: getGraphSummary
+      summary: Compact node and edge list for dashboards (labels may be redacted by host policy)
+      responses:
+        "200":
+          description: Graph summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GraphSummary"
+        "503":
+          description: Vault not mounted or host not ready
+
+  /exchange/import:
+    post:
+      tags: [exchange]
+      operationId: importExchangeBundle
+      summary: Append a versioned exchange bundle produced by issuer mapping pipelines
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExchangeBundle"
+      responses:
+        "202":
+          description: Accepted for validation and merge
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImportReceipt"
+        "400":
+          description: Validation failure
+        "503":
+          description: Vault not mounted
+
+components:
+  schemas:
+    HealthResponse:
+      type: object
+      required: [ok, apiVersion]
+      properties:
+        ok:
+          type: boolean
+        apiVersion:
+          type: string
+          example: "0.1.0"
+        productVersion:
+          type: string
+          nullable: true
+
+    GraphSummary:
+      type: object
+      required: [nodes, edges]
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: "#/components/schemas/GraphNodeRef"
+        edges:
+          type: array
+          items:
+            $ref: "#/components/schemas/GraphEdgeRef"
+
+    GraphNodeRef:
+      type: object
+      required: [id, kind, label]
+      properties:
+        id:
+          type: string
+        kind:
+          type: string
+          description: Domain-specific kind (e.g. clinical, person, document).
+        label:
+          type: string
+          description: Human-readable label; host may mask sensitive values.
+
+    GraphEdgeRef:
+      type: object
+      required: [fromId, toId, kind]
+      properties:
+        fromId:
+          type: string
+        toId:
+          type: string
+        kind:
+          type: string
+
+    ExchangeBundle:
+      type: object
+      required: [bundleId, issuedAt, issuer, entries]
+      properties:
+        bundleId:
+          type: string
+          format: uuid
+        issuedAt:
+          type: string
+          format: date-time
+        issuer:
+          $ref: "#/components/schemas/PartyRef"
+        entries:
+          type: array
+          items:
+            $ref: "#/components/schemas/ExchangeEntry"
+        profile:
+          type: string
+          description: Optional profile URI identifying the mapping (e.g. FHIR collection profile).
+
+    PartyRef:
+      type: object
+      required: [displayName]
+      properties:
+        displayName:
+          type: string
+        did:
+          type: string
+          description: Decentralized identifier of the issuer when available.
+        software:
+          type: string
+          description: Issuing product name and version for audit.
+
+    ExchangeEntry:
+      type: object
+      required: [entryId, resourceType, payload]
+      properties:
+        entryId:
+          type: string
+        resourceType:
+          type: string
+          description: Logical type (FHIR resource name or custom extension key).
+        payload:
+          description: JSON object or JSON-encoded string per profile rules.
+          oneOf:
+            - type: object
+              additionalProperties: true
+            - type: string
+
+    ImportReceipt:
+      type: object
+      required: [jobId, status]
+      properties:
+        jobId:
+          type: string
+        status:
+          type: string
+          enum: [accepted, duplicate, rejected]
+        detail:
+          type: string
+          nullable: true

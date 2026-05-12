@@ -1,0 +1,25 @@
+= Provider SDK and cross-language adapters
+
+This repository treats **machine-readable contracts** as the integration surface for care-provider software, employer portals, and middleware—not ad hoc copies of TypeScript structures.
+
+== Contract layers
+
+[cols="1,2"]
+|===
+| Artifact | Role
+
+| link:../../spec/openapi/prv-local.openapi.yaml[`spec/openapi/prv-local.openapi.yaml`] | **OpenAPI 3** description of the loopback HTTP API the desktop host is expected to expose (`/v0/...`). This is the primary input for client generators in Java, C#, Python, Go, Kotlin, and so on.
+| link:../../spec/json-schema/exchange-bundle.schema.json[`spec/json-schema/exchange-bundle.schema.json`] | **JSON Schema** mirror of the `ExchangeBundle` payload for validators, documentation portals, and languages where OpenAPI tooling is awkward.
+| link:../../packages/sdk/README.adoc[`@prv/sdk`] | **Reference TypeScript client** (`createVaultClient`) that tracks the OpenAPI file; use it inside Node services, browser tooling, or as a behavioral spec for tests.
+|===
+
+== Recommended adapter strategy
+
+. **Freeze the HTTP + JSON contract** in `spec/openapi/` and bump `info.version` when you make breaking changes.
+. **Ship the TypeScript SDK** (`@prv/sdk`) from the same repo so Electron, extensions, and Node-based issuer pipelines share one implementation.
+. **Generate other language clients** from the OpenAPI document using your organization's standard generator (OpenAPI Generator, Kiota, Speakeasy, Fern, and so on). Check generated code into `generated/` *only* if you want zero-Java CI; otherwise run generation in release pipelines and publish packages to an internal registry.
+. **Optional later:** add a protobuf mirror *only* if you adopt gRPC for high-throughput internal services; do not duplicate three divergent models without automation.
+
+== Security expectations (informal)
+
+The Local Provider API is designed for **loopback** access. A production host should add authentication (for example capability URLs, mutual TLS, or OS-mediated IPC), rate limits, and explicit user consent before exposing graph or import routes. This document does not replace a threat model or regulatory review.

@@ -24,7 +24,7 @@ pnpm-debug.log*
 # Electron / Vite
 apps/desktop/out
 apps/desktop/release
-apps/extension/dist
+packages/sdk/dist
 
 # OS
 .DS_Store

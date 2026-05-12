@@ -48,6 +48,10 @@ OCR, speech, and video understanding are feasible on capable local machines but 
 
 Browser automation breaks with site changes and may conflict with terms of service. Treat standards-based exchange as the primary path and automation as a best-effort assistant with user visibility and consent.
 
+== Integrations (provider SDK)
+
+See link:provider-sdk.adoc[Provider SDK and cross-language adapters] for the OpenAPI contract, JSON Schema payloads, and how other languages should consume them.
+
 == Suggested data plane (sketch)
 
 [cols="1,2"]

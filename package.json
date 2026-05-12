@@ -4,7 +4,7 @@
   "packageManager": "pnpm@9.15.4",
   "scripts": {
     "dev": "pnpm --filter @prv/desktop dev",
-    "build": "pnpm --filter @prv/desktop build",
+    "build": "pnpm --filter @prv/desktop build && pnpm --filter @prv/extension build && pnpm --filter @prv/sdk build",
     "dist": "pnpm --filter @prv/desktop dist",
     "build:extension": "pnpm --filter @prv/extension build",
     "dev:extension": "pnpm --filter @prv/extension dev"

@@ -1,0 +1,12 @@
+= 2026-05-14 — Provider SDK foundation
+
+Care-provider and issuer integrations need a **stable, language-neutral contract** rather than only in-app TypeScript.
+
+This change introduces:
+
+* `spec/openapi/prv-local.openapi.yaml` — first draft of the loopback **Local Provider API** (`/v0/health`, `/v0/graph/summary`, `/v0/exchange/import`).
+* `spec/json-schema/exchange-bundle.schema.json` — JSON Schema for the exchange bundle body.
+* `packages/sdk` (`@prv/sdk`) — minimal `createVaultClient` implementation plus optional `openapi-typescript` typegen script.
+* AsciiDoc guidance in `docs/explanation/provider-sdk.adoc` for generating clients in other languages.
+
+The Electron host does not implement these HTTP routes yet; the specification leads implementation so adapters can start in parallel.

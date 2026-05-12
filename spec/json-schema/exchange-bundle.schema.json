@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AMDphreak/personal-records-vault/schemas/exchange-bundle.schema.json",
+  "title": "ExchangeBundle",
+  "type": "object",
+  "required": ["bundleId", "issuedAt", "issuer", "entries"],
+  "properties": {
+    "bundleId": { "type": "string", "format": "uuid" },
+    "issuedAt": { "type": "string", "format": "date-time" },
+    "issuer": {
+      "type": "object",
+      "required": ["displayName"],
+      "properties": {
+        "displayName": { "type": "string" },
+        "did": { "type": "string" },
+        "software": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["entryId", "resourceType", "payload"],
+        "properties": {
+          "entryId": { "type": "string" },
+          "resourceType": { "type": "string" },
+          "payload": { "type": ["object", "string"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "profile": { "type": "string" }
+  },
+  "additionalProperties": false
+}

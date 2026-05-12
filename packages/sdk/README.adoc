@@ -1,0 +1,53 @@
+= `@prv/sdk` — TypeScript reference client
+
+Small **fetch**-based client for the Local Provider API defined in link:../../spec/openapi/prv-local.openapi.yaml[`spec/openapi/prv-local.openapi.yaml`].
+
+== Usage
+
+[source,typescript]
+----
+import { createVaultClient } from '@prv/sdk'
+
+const vault = createVaultClient({ baseUrl: 'http://127.0.0.1:17430/v0' })
+const health = await vault.health()
+----
+
+== Regenerating types from OpenAPI (optional)
+
+When the OpenAPI document changes, you can regenerate static TypeScript types:
+
+[source,powershell]
+----
+pnpm --filter @prv/sdk typegen
+----
+
+Review `src/generated/openapi-types.ts` before committing (not wired into `tsc` yet).
+
+== Other languages
+
+See link:../../docs/explanation/provider-sdk.adoc[Provider SDK and cross-language adapters].
+
+== Example OpenAPI Generator invocations
+
+Run from the **repository root** (paths are relative to that directory). These assume OpenAPI Generator is available via `pnpm dlx` (often backed by a local Java install).
+
+[source,bash]
+----
+# Python
+pnpm dlx @openapitools/openapi-generator-cli generate \
+  -i spec/openapi/prv-local.openapi.yaml \
+  -g python \
+  -o generated/python-prv-client
+
+# C# (.NET)
+pnpm dlx @openapitools/openapi-generator-cli generate \
+  -i spec/openapi/prv-local.openapi.yaml \
+  -g csharp \
+  -o generated/csharp-prv-client
+
+# Java
+pnpm dlx @openapitools/openapi-generator-cli generate \
+  -i spec/openapi/prv-local.openapi.yaml \
+  -g java \
+  -o generated/java-prv-client
+----
