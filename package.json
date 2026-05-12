@@ -1,0 +1,12 @@
+{
+  "name": "personal-records-vault",
+  "private": true,
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {
+    "dev": "pnpm --filter @prv/desktop dev",
+    "build": "pnpm --filter @prv/desktop build",
+    "dist": "pnpm --filter @prv/desktop dist",
+    "build:extension": "pnpm --filter @prv/extension build",
+    "dev:extension": "pnpm --filter @prv/extension dev"
+  }
+}

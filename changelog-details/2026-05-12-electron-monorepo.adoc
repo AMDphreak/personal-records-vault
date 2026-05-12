@@ -1,0 +1,12 @@
+= 2026-05-12 — Electron monorepo
+
+The interactive product surface moved to JavaScript/TypeScript so the same ecosystem can host **SolidJS** UI, future **Veramo** integration, and **WebExtensions** with less impedance than a D-first GUI.
+
+Highlights:
+
+* `apps/desktop`: `electron-vite` + Solid renderer, secure preload bridge, native folder/file picker for vault locations, placeholder graph visualization.
+* `apps/extension`: MV3 manifest + Vite-built popup for Chrome, Edge, and Firefox.
+* `.github/workflows`: CI on Ubuntu; release workflow matrix for installer packaging.
+* `native/cli`: prior `dub` bootstrap preserved for optional native utilities.
+
+Follow-ups likely include codesigning and notarization for macOS, richer graph layout (for example ELK or WebGPU), and native messaging between the extension and desktop host.

@@ -1,0 +1,139 @@
+:root {
+  color-scheme: light dark;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  line-height: 1.45;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #0f1115;
+  color: #e8ecf1;
+}
+
+a {
+  color: #7ec8ff;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #242a33;
+  background: linear-gradient(180deg, #151922, #10141a);
+}
+
+.app-header h1 {
+  margin: 0 0 0.35rem;
+  font-size: 1.15rem;
+  font-weight: 650;
+}
+
+.app-header p {
+  margin: 0;
+  color: #aeb6c2;
+  font-size: 0.92rem;
+}
+
+.app-main {
+  flex: 1;
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 960px) {
+  .app-main {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.panel {
+  border: 1px solid #242a33;
+  border-radius: 12px;
+  padding: 1rem;
+  background: #121722;
+}
+
+.panel h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.muted {
+  color: #aeb6c2;
+  font-size: 0.9rem;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
+  font-size: 0.85rem;
+  word-break: break-all;
+}
+
+.graph {
+  margin-top: 0.75rem;
+  border-radius: 10px;
+  border: 1px dashed #2c3544;
+  padding: 0.75rem;
+  background: #0f141c;
+}
+
+.graph-node {
+  border-left: 3px solid #4b8bff;
+  padding: 0.5rem 0.65rem;
+  margin: 0.35rem 0;
+  border-radius: 8px;
+  background: #141b26;
+}
+
+.graph-node small {
+  color: #9aa4b2;
+}
+
+.graph-children {
+  margin-left: 0.75rem;
+  padding-left: 0.75rem;
+  border-left: 1px solid #242a33;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid #2c3544;
+  color: #dbe4f3;
+  font-size: 0.78rem;
+}
+
+.footer {
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid #242a33;
+  color: #aeb6c2;
+  font-size: 0.85rem;
+}

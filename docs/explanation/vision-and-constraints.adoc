@@ -2,7 +2,7 @@
 
 This document captures the product direction discussed for a *personal records vault*: structured life and health data, selective sharing with providers and employers, multi-modal ingestion (documents, audio, video), and decentralized or hardware-assisted trust.
 
-It also records engineering constraints so the D codebase does not pretend to ship features that belong in other runtimes or regulated domains.
+It also records engineering constraints so the repository does not pretend to ship features that belong in the wrong runtime or regulated domains.
 
 == Goals (north star)
 
@@ -20,9 +20,9 @@ It also records engineering constraints so the D codebase does not pretend to sh
 
 == Platform split: D versus other runtimes
 
-*Core vault, storage engines, performance-sensitive parsing, and desktop tooling* fit D well.
+*Core vault, storage engines, performance-sensitive parsing, and optional native utilities* can still use D (see `native/cli/`), but the *default interactive product* is an **Electron + SolidJS** desktop app under `apps/desktop/` so installers, visualization, and browser-adjacent code paths stay in one TypeScript-capable ecosystem.
 
-https://veramo.io[Veramo] is a TypeScript/JavaScript DID and verifiable credential toolkit. A realistic integration is a *sidecar* (local Node service), a small CLI invoked from D, or a future WASM boundary—not a from-scratch reimplementation of every Veramo plugin in D unless that becomes a dedicated project.
+https://veramo.io[Veramo] is a TypeScript/JavaScript DID and verifiable credential toolkit. A realistic integration is in-process in Electron, as a local Node sidecar, through extension native messaging, or as a small CLI—not a from-scratch reimplementation of every Veramo plugin in D unless that becomes a dedicated project.
 
 == Hardware wallets and bulk storage
 

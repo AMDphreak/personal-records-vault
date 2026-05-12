@@ -1,12 +1,34 @@
+# D (optional native CLI under native/cli)
 .dub
 docs.json
 __dummy.html
-/personal-records-vault
-personal-records-vault.exe
-personal-records-vault.pdb
 *.o
 *.obj
 *.lst
-libpersonal-records-vault.a
-personal-records-vault.lib
-personal-records-vault-test-*
+*.pdb
+lib*.a
+*.lib
+# Native D artifacts (dub output)
+native/cli/personal-records-vault.exe
+native/cli/personal-records-vault
+native/cli/personal-records-vault.lib
+native/cli/personal-records-vault.pdb
+
+# Node / pnpm
+node_modules
+.pnpm-store
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Electron / Vite
+apps/desktop/out
+apps/desktop/release
+apps/extension/dist
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dub / local runs sometimes drop binaries at repo root
+/personal-records-vault.exe

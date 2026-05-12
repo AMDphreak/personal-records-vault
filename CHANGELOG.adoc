@@ -6,4 +6,12 @@ All notable changes to this project are documented in this file and in link:chan
 
 === Added
 
-* Bootstrap D `dub` executable and documentation skeleton. Details: link:changelog-details/2026-05-12-bootstrap.adoc[2026-05-12 — Bootstrap].
+* Electron + SolidJS desktop shell (`apps/desktop`) with USB-oriented vault path picker, demo graph visualization, and `electron-builder` installer configuration for Windows, macOS, and Linux.
+* WebExtension scaffold (`apps/extension`) for Chrome, Edge, and Firefox MV3.
+* GitHub Actions workflows for CI builds and tagged desktop releases (artifact uploads).
+* `solid-ui` dependency (wired next in renderer components).
+* Bootstrap D `dub` executable and documentation skeleton (now under `native/cli`). Details: link:changelog-details/2026-05-12-bootstrap.adoc[2026-05-12 — Bootstrap].
+
+=== Changed
+
+* Primary UX stack moved from D to Electron; D prototype relocated to `native/cli`. Details: link:changelog-details/2026-05-12-electron-monorepo.adoc[2026-05-12 — Electron monorepo].

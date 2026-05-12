@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Personal Records Vault Companion",
+  "version": "0.1.0",
+  "description": "Companion extension for Personal Records Vault (Chrome, Edge, Firefox MV3).",
+  "action": {
+    "default_title": "Personal Records Vault",
+    "default_popup": "popup.html"
+  },
+  "permissions": ["storage"]
+}
