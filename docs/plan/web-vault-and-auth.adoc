@@ -1,0 +1,56 @@
+= Plan: Web vault, auth, and static site (`apps/site`)
+
+== Problem statement
+
+The static site delivers **marketing**, a **local session marker** (`sessionStorage`), **Veramo** in the browser, **File System Access** vault picking, and **provider fetch / merge** prototypes. It does **not** yet define a long-term **authentication** model, **multi-device identity**, or how web and desktop **split responsibilities** without duplicating sensitive state.
+
+== Current state (as-is)
+
+* **SolidStart 1** static export to Netlify; **@kobalte/core** for UI.
+* **Routes:** `/login` (local marker), `/app` (vault folder), `/identity` (Veramo), `/providers` (GET export + ephemeral preview + merge file).
+* **Privacy hub:** vault permission polling, ephemeral TTL, optional Web Bluetooth disconnect, “strict public computer” mode.
+* **No** hosted backend for auth; **no** OIDC/OAuth integration.
+
+== Target state (to-be)
+
+Pick one primary stance (document the choice):
+
+. **Web as thin client:** identity and vault operations delegate to desktop via deep link + one-time codes or extension messaging; web remains marketing + downloads + docs.
+. **Web as peer client:** full auth (e.g. passkeys + optional cloud sync) with clear separation from desktop; higher engineering and security burden.
+
+Until that choice is recorded, treat **both** as hypotheses and avoid irreversible coupling.
+
+== Phase 0 — Product decision
+
+* **ADR:** “Web vault role in the product” with options, decision, and consequences.
+* Update link:../../apps/site/README.adoc[site README] to match the ADR (no marketing overclaim).
+
+*Acceptance:* ADR merged; changelog detail entry linked.
+
+== Phase 1 — Auth hardening (if web remains a vault client)
+
+* Replace or supplement session marker with **passkeys** or **OIDC** (provider TBD) while preserving local-first posture.
+* **Session + Veramo relationship:** define whether clearing web session clears DID material, or only UI trust (today split across controls — document intended UX).
+
+*Acceptance:* documented recovery and sign-out behavior; no credential in URL query strings.
+
+== Phase 2 — Operational security
+
+* **CSP** headers for static hosting (Netlify `_headers` or equivalent).
+* **Dependency review** cadence for Veramo stack (large transitive graph).
+* **Subresource integrity** for any third-party scripts (prefer none).
+
+== Phase 3 — Parity hooks with desktop
+
+* Shared **interchange types** generated from link:../../packages/sdk/README.adoc[`@prv/sdk`] where overlap exists.
+* Optional **deep link** from web to desktop for “open this bundle in app.”
+
+== Dependencies
+
+* link:provider-fetch-and-merge.adoc[Provider fetch plan] for CORS and signed export evolution.
+* link:hardware-presence-trust.adoc[Hardware trust plan] for realistic “public computer” guarantees.
+
+== Risks
+
+* **Veramo in static hosting:** key material in browser storage is vulnerable to XSS class bugs — scope CSP and dependency surface aggressively.
+* **User confusion** between “web sign-in” and “Veramo identity” — unify naming and docs.

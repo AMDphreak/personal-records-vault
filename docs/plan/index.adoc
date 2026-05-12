@@ -1,0 +1,82 @@
+= Implementation plans — index
+
+This folder holds **detailed, actionable plans** for work that is **not yet implemented** or only partially implemented in the repository.
+It complements link:../explanation/vision-and-constraints.adoc[vision and constraints] (product direction) and link:../../CHANGELOG.adoc[CHANGELOG] (what shipped).
+
+== How to use these documents
+
+. Pick a plan by area (table below).
+. Each plan states **current state**, **target state**, **phased work**, **dependencies**, and **acceptance criteria**.
+. Update the plan file when scope shifts; add a short entry to `changelog-details/` when a phase completes if the change is non-trivial.
+
+== Status legend
+
+[cols="1,3",options="header"]
+|===
+|Status |Meaning
+
+|`Not started`
+|No production-bound implementation; sketches or spikes only.
+
+|`Partial`
+|User-visible or internal scaffolding exists; not feature-complete.
+
+|`Research`
+|Requirements or technology choice still open.
+
+|===
+
+== Plan documents
+
+[cols="2,1,4",options="header"]
+|===
+|Document |Status (high level) |Scope
+
+|link:desktop-application.adoc[Desktop application]
+|`Partial`
+|Electron shell → full vault UX, storage, sync hooks, optional Kobalte alignment with the site.
+
+|link:browser-extension.adoc[Browser extension]
+|`Partial`
+|MV3 scaffold → messaging, vault handoff, provider assist flows, security model.
+
+|link:web-vault-and-auth.adoc[Web vault, auth, and static site]
+|`Partial`
+|Session marker + Veramo in browser → real auth story, SSR boundaries, feature parity decisions with desktop.
+
+|link:provider-fetch-and-merge.adoc[Provider fetch, merge, and interchange]
+|`Partial`
+|Demo JSON + ad hoc GET → signed exports, optional proxy, schema alignment with OpenAPI/SDK.
+
+|link:hardware-presence-trust.adoc[Hardware presence and trust]
+|`Research` / `Partial`
+|Directory permission + optional Web Bluetooth → USB/FIDO reality, threat model, UX for “public computer.”
+
+|link:data-model-and-indexing.adoc[Data model and indexing]
+|`Not started`
+|Event log, document store, graph index, VC anchors — turn vision sketch into phased schema and code.
+
+|link:release-signing-and-distribution.adoc[Release signing and distribution]
+|`Partial`
+|CI builds → codesigned installers, macOS notarization, extension store readiness.
+
+|link:native-cli-and-tooling.adoc[Native CLI and tooling]
+|`Partial`
+|Optional D CLI under `native/cli` → role vs Electron, packaging, developer workflows.
+
+|===
+
+== Cross-cutting themes
+
+These appear in multiple plans; keep them consistent across documents.
+
+* **Local-first and minimal trust in hosts:** anything “cloud” is opt-in and explicit.
+* **Interchange:** prefer link:../../spec/openapi/prv-local.openapi.yaml[OpenAPI] + link:../../spec/json-schema/exchange-bundle.schema.json[JSON Schema] as contracts before ad hoc JSON.
+* **Provenance:** VCs, hashes, and append-only or versioned events should agree across desktop, extension, and web where the same data is shown.
+* **Regulatory posture:** certification programs (HIPAA tooling, FDA SaMD, etc.) stay **out of scope** until a deliberate program exists; plans must not imply certification by shipping a feature flag.
+
+== Related reading
+
+* link:../explanation/vision-and-constraints.adoc[Vision, constraints, and open questions]
+* link:../explanation/provider-sdk.adoc[Provider SDK and cross-language adapters]
+* link:../../apps/site/README.adoc[`@prv/site` README (static web vault)]

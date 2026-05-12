@@ -1,0 +1,51 @@
+= Plan: Release signing, notarization, and distribution
+
+== Problem statement
+
+CI and `electron-builder` produce **installers**, but **macOS notarization**, **Windows Authenticode**, and **Linux signing expectations** are not fully automated. The **browser extension** is not yet packaged for stores. The static site depends on **Netlify** with documented **Node/Corepack/pnpm** constraints.
+
+== Current state (as-is)
+
+* **GitHub Actions:** CI builds; release workflow uploads artifacts for tags `v*`.
+* **README** states codesigning and macOS notarization are **not** configured.
+* **Netlify:** `netlify.toml` builds `@prv/site` and publishes `.output/public`.
+
+== Target state (to-be)
+
+* **Reproducible signed releases** per OS with secrets handled via GitHub **OIDC** or encrypted secrets (document choice).
+* **macOS:** notarized `.app` / `.dmg` with stapled tickets where applicable.
+* **Windows:** signed NSIS or MSI with timestamping.
+* **Extension:** repeatable store packages (ZIP/CRX policies) once MVP exists (see link:browser-extension.adoc[extension plan]).
+
+== Phase 0 — Inventory and secrets
+
+* List required **certificates, profiles, entitlements**, and Apple **Developer** account prerequisites.
+* Define **secret names** in GitHub Actions and rotation procedure.
+
+*Acceptance:* checklist document (can live in this file) with owner and renewal dates.
+
+== Phase 1 — macOS pipeline
+
+* **electron-builder** notarize hooks; `notarytool` from CI.
+* **Entitlements** file for hardened runtime (network if needed, no unnecessary broad flags).
+
+*Acceptance:* tagged build produces notarized artifact; Gatekeeper install on clean macOS VM succeeds.
+
+== Phase 2 — Windows pipeline
+
+* **signtool** integration with hardware token or cloud signing service (decision recorded).
+* Timestamp server configuration.
+
+== Phase 3 — Supply chain hygiene
+
+* **SBOM** export per release (CycloneDX or SPDX) — optional but recommended for enterprise consumers.
+* **Dependency automation** (Dependabot/Renovate policy) aligned with security expectations.
+
+== Dependencies
+
+* Apple and Microsoft developer programs; potential cost approval.
+
+== Risks
+
+* **Certificate expiry** breaks CI — calendar alerts and docs for renewal.
+* **Notarization failures** due to entitlements — budget iteration time.

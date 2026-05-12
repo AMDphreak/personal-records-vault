@@ -1,0 +1,48 @@
+= Plan: Data model, event log, and indexing
+
+== Problem statement
+
+link:../explanation/vision-and-constraints.adoc[Vision] sketches layers (event log, document store, graph index, credential anchors) but the repository does **not** yet implement them as **schemas**, **migrations**, or **query APIs** shared across desktop, web, and extension.
+
+== Current state (as-is)
+
+* **Desktop:** demo graph visualization without a committed persistence model.
+* **Web:** Veramo JSON stores in browser `localStorage` for DIDs/VCs; merge append file for provider JSONL.
+* **Specs:** OpenAPI + JSON Schema for interchange exist separately from a unified **internal** vault schema.
+
+== Target state (to-be)
+
+* **Internal canonical model:** events referencing blobs by hash; explicit `supersedes` / `revokes` for corrections (per vision).
+* **Derived indexes:** full-text or embedding-backed search with provenance (which model, which file region, when).
+* **Versioned migrations** for any on-disk vault format.
+
+== Phase 0 — Canonical event schema
+
+* Define **event types** (enum or closed vocabulary), JSON Schema, and example fixtures.
+* Align field names with interchange bundle where overlap makes sense; document mapping where not.
+
+*Acceptance:* validators run in CI on fixtures; desktop or site can append/read a minimal event stream.
+
+== Phase 1 — Blob store
+
+* Content-addressed storage for large files; streaming hash API; dedupe.
+* Garbage collection policy for unreferenced staged blobs.
+
+== Phase 2 — Graph index
+
+* Derive edges from events (e.g. “document A supports claim B”) for navigation views.
+* Optional export to standard graph serialization for tooling.
+
+== Phase 3 — Search and multi-modal proposals
+
+* **OCR / speech / video** outputs as **proposals** with review queue (per vision); never auto-commit high-stakes fields without explicit user action.
+
+== Dependencies
+
+* link:desktop-application.adoc[Desktop] and link:web-vault-and-auth.adoc[Web] for where the event log is authoritative.
+* GPU/CPU capability detection for model workloads.
+
+== Risks
+
+* **Schema churn** without migrations corrupts user vaults — treat migrations as first-class with tests.
+* **Privacy** of embeddings and cloud model calls — default local-only unless user opts in.

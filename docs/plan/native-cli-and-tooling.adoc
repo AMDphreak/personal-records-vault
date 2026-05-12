@@ -1,0 +1,38 @@
+= Plan: Native CLI and tooling (`native/cli`)
+
+== Problem statement
+
+An optional **D** CLI exists for experiments (`dub` project). The **primary product** is TypeScript/Electron. Without a clear plan, the CLI risks **duplicating logic**, drifting from **OpenAPI** contracts, or confusing contributors about where features belong.
+
+== Current state (as-is)
+
+* **D** project under `native/cli` with documentation skeleton.
+* **No** required coupling to desktop release artifacts in CI (verify against current `ci.yml` when implementing phases).
+
+== Target state (to-be)
+
+* Explicit **charter:** what the CLI is for (e.g. batch validation, fixture generation, perf benchmarks) vs what must live in Electron.
+* **Release story** if binaries are distributed (versioning, platform matrix) — or explicit “source-only tool.”
+
+== Phase 0 — Charter ADR
+
+* Write 1-page **ADR:** keep / shrink / archive CLI; success metrics (e.g. “CI runs `dub test` on PRs”).
+
+*Acceptance:* ADR merged; README links to it from `native/cli` README if present.
+
+== Phase 1 — Contract alignment
+
+* Commands that **validate** bundles against link:../../spec/json-schema/exchange-bundle.schema.json[JSON Schema] from disk.
+* Optional **codegen** helpers that stay in sync with OpenAPI (or explicitly defer to `packages/sdk`).
+
+== Phase 2 — CI integration (optional)
+
+* Add job matrix entry **only if** maintenance cost is acceptable (D compiler cache, dub fetch time).
+
+== Dependencies
+
+* link:data-model-and-indexing.adoc[data model plan] if CLI operates on vault files.
+
+== Risks
+
+* **Contributor friction** from multi-language repo — keep D surface minimal or document Dockerized workflow.

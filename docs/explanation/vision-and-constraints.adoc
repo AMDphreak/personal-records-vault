@@ -52,6 +52,10 @@ Browser automation breaks with site changes and may conflict with terms of servi
 
 See link:provider-sdk.adoc[Provider SDK and cross-language adapters] for the OpenAPI contract, JSON Schema payloads, and how other languages should consume them.
 
+== Implementation planning
+
+Phased engineering work for areas not yet built (or only partially built) lives under link:../plan/index.adoc[`docs/plan/`]. Start at the index, then open the topic plan that matches the subsystem you are changing.
+
 == Suggested data plane (sketch)
 
 [cols="1,2"]

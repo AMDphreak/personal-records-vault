@@ -1,0 +1,51 @@
+= Plan: Provider fetch, merge, and interchange
+
+== Problem statement
+
+The site can **GET** a URL with `subjectDid` and merge JSON into a user-chosen file (`prv-provider-merge.jsonl`). Real providers need **authentication**, **integrity** (signatures), **versioning**, **CORS** or same-origin proxies, and alignment with link:../../spec/openapi/prv-local.openapi.yaml[OpenAPI] / link:../../spec/json-schema/exchange-bundle.schema.json[JSON Schema] — none of which are fully specified in code yet.
+
+== Current state (as-is)
+
+* **Client-only fetch**; failures surface as generic HTTP/CORS errors.
+* **Ephemeral in-memory** store with TTL; merge appends JSON lines.
+* **Demo asset** `public/prv-demo-provider.json` for same-origin testing.
+* **No** request signing, **no** mTLS, **no** server-side proxy in repo.
+
+== Target state (to-be)
+
+* **Contract-first** exports: provider implements OpenAPI operations; payloads validate against schema.
+* **Subject binding:** cryptographically bound to DID or session proof, not only a query parameter (design options: JWT, DPoP-style proof, signed challenge).
+* **Merge semantics:** idempotent merges, dedupe keys, optional conflict resolution UI.
+
+== Phase 0 — Contract gap analysis
+
+* Map current **demo JSON** to `exchange-bundle` schema; list required extensions or new schema version.
+* Document **CORS matrix:** browser-only vs desktop proxy vs provider allows origin.
+
+*Acceptance:* written matrix in this file or `changelog-details/` with “supported / not supported” per deployment mode.
+
+== Phase 1 — Same-origin proxy (optional component)
+
+* **Netlify function** or small **Node** host that forwards signed requests with server-held credentials *only if* product requires it — default remains “provider enables CORS.”
+* Rate limits, audit log, and abuse considerations documented.
+
+*Acceptance:* one reference deployment with proxy behind feature flag; not enabled in public demo without credentials.
+
+== Phase 2 — Client verification
+
+* Verify **signatures** on provider bundles before merge (keys, rotation, clock skew).
+* Persist **merge audit** into vault event log (see link:data-model-and-indexing.adoc[data model plan]).
+
+== Phase 3 — Desktop and extension consumers
+
+* Same fetch/merge logic callable from **Electron** (Node) with shared validation library extracted to `packages/` if duplication hurts.
+
+== Dependencies
+
+* link:web-vault-and-auth.adoc[Web auth plan] for identity proofs tied to requests.
+* SDK generation kept in sync with OpenAPI changes.
+
+== Risks
+
+* **PII in logs:** never log raw export bodies in CI or client analytics.
+* **Legal / ToS:** automated portal interaction may violate site terms — keep standards-based exchange primary per vision doc.

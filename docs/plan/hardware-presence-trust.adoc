@@ -1,0 +1,47 @@
+= Plan: Hardware presence and trust
+
+== Problem statement
+
+Users want assurances when **USB storage disappears**, **Bluetooth peripherals disconnect**, or they walk away from a **shared computer**. Browsers expose **limited** APIs; the current implementation uses **directory permission polling**, **ephemeral RAM stores**, and **optional Web Bluetooth** — which do **not** map cleanly to “YubiKey removed” or all USB mass-storage scenarios.
+
+== Current state (as-is)
+
+* **File System Access:** periodic `queryPermission` on the chosen vault directory; loss triggers expunge + blind UI.
+* **Strict public computer** mode clears sensitive state on tab hide (`sessionStorage` flag).
+* **Web Bluetooth:** user gesture + `gattserverdisconnected` → expunge (best effort; many security keys do not use Web Bluetooth).
+
+== Target state (to-be)
+
+* A **documented threat model** per platform: what is guaranteed vs best-effort.
+* **Optional** integration with **WebAuthn** / **WebHID** where a concrete device class is chosen (vendor cooperation required).
+* Clear **UX copy** so users understand limits on pure static sites.
+
+== Phase 0 — Clarify guarantees
+
+* Produce a short **“Guarantees table”** (what USB removal implies on Chrome/Edge/Safari).
+* Decide whether **desktop** owns authoritative hardware detection and web only mirrors policy.
+
+*Acceptance:* table published in `apps/site` docs or `docs/explanation/` and linked from site UI.
+
+== Phase 1 — Desktop enhancements
+
+* OS-level **volume mount** events where available (Electron APIs) to complement browser heuristics.
+* **Screen lock** / **suspend** hooks if desired (privacy policy implications).
+
+== Phase 2 — WebAuthn / passkey presence (optional)
+
+* If product requires “unlock vault with passkey,” design **challenge** flow and fallback when passkey unavailable.
+
+== Phase 3 — Bluetooth / NFC (device-specific)
+
+* Only pursue after **specific hardware** and protocol are chosen; avoid speculative Web Bluetooth prompts.
+
+== Dependencies
+
+* link:web-vault-and-auth.adoc[Web vault plan] for session semantics when blinded.
+* link:desktop-application.adoc[Desktop plan] if authoritative signals move to Electron.
+
+== Risks
+
+* **False positives / negatives** erode trust — test on real USB sticks and slow storage.
+* **Overpromising** in marketing copy — keep language aligned with guarantees table.

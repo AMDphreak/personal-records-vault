@@ -1,0 +1,53 @@
+= Plan: Browser extension (`apps/extension`)
+
+== Problem statement
+
+The repository contains an **MV3 scaffold** (popup, build to `dist/`, manifest) without a defined **user story**, **native messaging** contract to the desktop app, or **security review** for handling health-adjacent data in a browser context.
+
+== Current state (as-is)
+
+* **Chrome / Edge / Firefox MV3** compatible manifest and build script.
+* **No** documented bridge to Electron, **no** content-script strategy, **no** permission minimization narrative.
+
+== Target state (to-be)
+
+* A **narrow, testable** first feature: e.g. “capture current page metadata + user note → hand off to desktop vault” *or* “fill provider portal fields from structured bundle” with explicit consent — pick one as v1, not both at once.
+* **Least privilege** manifest: justify every host permission and `activeTab` usage.
+* **Packaging path** for Chrome Web Store / AMO deferred until MVP works sideloaded (see link:release-signing-and-distribution.adoc[release plan]).
+
+== Phase 0 — Contract and threat model
+
+* Document **trust boundaries**: extension storage vs desktop vault vs web page DOM.
+* Choose **native messaging** host name, message schema (JSON with version field), and failure modes when desktop is closed.
+* **Threat model bullets:** malicious page, compromised extension update channel, clipboard leaks.
+
+*Acceptance:* ADR or short design note checked into `docs/` or `changelog-details/`; team agreement on v1 scope statement.
+
+== Phase 1 — Native messaging MVP
+
+* Desktop: register **nativeMessaging** host (platform-specific manifest generation in build).
+* Extension: popup UI to “Send to vault” with payload preview; postMessage to background → native port.
+* **Idempotency:** same payload twice creates duplicate-safe events in desktop (depends on desktop event log).
+
+*Acceptance:* with desktop running, user sends a small JSON payload and sees it appear in desktop vault event list (or equivalent confirmation UI).
+
+== Phase 2 — Content scripts (optional branch)
+
+* Only if v1 scope includes portal assist: **scoped** content script injection with explicit per-site enable list.
+* **No** silent exfiltration: all captured data shown in preview before send.
+
+== Phase 3 — Hardening
+
+* **Content Security Policy** for extension pages.
+* **Update channel** strategy (self-hosted vs stores).
+* Automated tests for message schema validation.
+
+== Dependencies
+
+* **Desktop plan** must expose a stable receive path for extension-originated events.
+* **Provider plan** if portal assist touches provider interchange formats.
+
+== Risks
+
+* **Store policy** compliance for medical-adjacent wording (marketing vs functionality claims).
+* **Firefox MV3** API differences vs Chromium — budget time for QA.

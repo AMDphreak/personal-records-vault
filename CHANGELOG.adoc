@@ -6,6 +6,7 @@ All notable changes to this project are documented in this file and in link:chan
 
 === Added
 
+* AsciiDoc **implementation plans** under `docs/plan/` (index plus per-area roadmaps for desktop, extension, web vault, provider interchange, hardware trust, data model, release signing, and native CLI). Entry point: link:docs/plan/index.adoc[`docs/plan/index.adoc`].
 * Electron + SolidJS desktop shell (`apps/desktop`) with USB-oriented vault path picker, demo graph visualization, and `electron-builder` installer configuration for Windows, macOS, and Linux.
 * WebExtension scaffold (`apps/extension`) for Chrome, Edge, and Firefox MV3.
 * GitHub Actions workflows for CI builds and tagged desktop releases (artifact uploads).

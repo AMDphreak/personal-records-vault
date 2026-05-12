@@ -12,6 +12,7 @@ See link:CHANGELOG.adoc[CHANGELOG.adoc] and the link:changelog-details/[changelo
 
 == Documentation
 
+* link:docs/plan/index.adoc[Implementation plans (index) — unimplemented and partial areas]
 * link:docs/explanation/vision-and-constraints.adoc[Vision, constraints, and open questions]
 * link:docs/explanation/provider-sdk.adoc[Provider SDK, OpenAPI contract, and language adapters]
 * link:apps/site/README.adoc[Marketing / web vault site (`@prv/site`)]
@@ -113,5 +114,6 @@ Codesigning and macOS notarization are not configured yet; expect unsigned macOS
 | `spec/json-schema/` | Payload **JSON Schema** mirrors for validators
 | `packages/sdk/` | TypeScript **reference client** (`@prv/sdk`)
 | `docs/explanation/` | Architecture and product reasoning (AsciiDoc)
+| `docs/plan/` | Phased implementation plans for unfinished or partial subsystems (start at `index.adoc`)
 | `changelog-details/` | Dated narrative notes linked from the changelog
 |===

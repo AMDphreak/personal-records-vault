@@ -1,0 +1,73 @@
+= Plan: Desktop application (`apps/desktop`)
+
+== Problem statement
+
+The Electron app is a **credible shell** (windowing, preload boundary, demo visualization, installer pipeline) but not yet a **complete personal records vault** as described in link:../explanation/vision-and-constraints.adoc[vision and constraints]: durable vault storage, structured ingestion, selective disclosure workflows, and tight alignment with the interchange contracts.
+
+== Current state (as-is)
+
+* **Electron + SolidJS** renderer with plain HTML controls; **no** shared component library with the static site yet.
+* **USB-oriented path** UX exists in spirit; real persistence, encryption, and backup policies are not fully specified in product terms.
+* **electron-builder** produces installers; **codesigning / notarization** are out of band (see link:release-signing-and-distribution.adoc[release signing plan]).
+* **Veramo** integration is not in-process in the desktop app today (browser path lives under `apps/site`).
+
+== Target state (to-be)
+
+* A **default** user journey: create or open vault → ingest or import records → view and search → prepare disclosure packages → export or invoke provider APIs where supported.
+* **Cryptography and storage** policy documented: at-rest encryption, key hierarchy, optional hardware-backed signing (coordinated with link:hardware-presence-trust.adoc[hardware presence plan]).
+* **Shared UX primitives** where it pays off: evaluate **@kobalte/core** in the renderer for parity with `apps/site` without reintroducing npm `solid-ui` (SolidOS widget set).
+
+== Phase 0 — Foundations (1–2 milestones)
+
+* **Vault lifecycle API** in the main process: open, lock, close, error surfaces (no UI polish required yet).
+* **Single source of truth** for “vault root path” and permission errors mirrored to renderer.
+* **Telemetry off by default**; any diagnostics opt-in and documented.
+
+*Acceptance:* opening a folder the user selects persists session metadata locally; lock clears secrets from memory; no silent writes outside the vault root.
+
+== Phase 1 — Data plane MVP
+
+* Adopt the **event log + blob reference** pattern from link:data-model-and-indexing.adoc[data model plan] at a minimal level (append events, list events, reference files by content hash or path).
+* Import pipeline: “drop files → staged entries → user confirms attach to vault.”
+* Export: generate bundles that validate against link:../../spec/json-schema/exchange-bundle.schema.json[exchange-bundle schema] where feasible.
+
+*Acceptance:* user can add a document, see it listed, export a bundle, re-import on a second machine without manual JSON editing.
+
+== Phase 2 — Verifiable credentials and provider hooks
+
+* **Veramo** (or equivalent) running in **Node context** (main or dedicated worker), not duplicated blindly from the web build.
+* Flow to **request** provider artifacts and **merge** into local vault with audit events (aligned with link:provider-fetch-and-merge.adoc[provider plan]).
+* Resolver and DID method strategy documented (did:key default, did:web for issuers, etc.).
+
+*Acceptance:* issue or hold a VC locally; verify signature; merge provider JSONL into vault with an event recording provenance.
+
+== Phase 3 — Experience and accessibility
+
+* **Kobalte** adoption for complex forms (wizards, disclosure review) with shared tokens (spacing, typography) aligned to `apps/site`.
+* Offline-first copy, error strings, and recovery paths (corrupted vault, partial sync).
+
+== Dependencies and risks
+
+* **Platform differences** (Windows vs macOS file locking, path length) affect vault implementation; test matrix must include both.
+* **Performance:** large folders and hashing must not block the UI; use workers and bounded concurrency.
+* **Scope creep:** “mini-EHR” features belong out of scope per vision doc — gate feature requests through interchange value.
+
+== Definition of done (desktop v1)
+
+[cols="1,3",options="header"]
+|===
+|Area |Criterion
+
+|Storage
+|User-chosen vault root; documented at-rest strategy; lock clears sensitive state.
+
+|Interchange
+|Export/import path uses published schemas or documents explicit gaps.
+
+|Credentials
+|At least one end-to-end VC path (create, store, verify) integrated with vault events.
+
+|Release
+|Unsigned builds remain possible; signed path documented in release plan.
+
+|===
