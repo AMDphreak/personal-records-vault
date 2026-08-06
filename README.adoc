@@ -1,10 +1,33 @@
+ifndef::env-github[:icons: font]
+:toc: preamble
+:toclevels: 2
+:sectanchors:
+
+image:https://img.shields.io/github/contributors/AMDphreak/personal-records-vault.svg?style=for-the-badge[Contributors]
+image:https://img.shields.io/github/forks/AMDphreak/personal-records-vault.svg?style=for-the-badge[Forks]
+image:https://img.shields.io/github/stars/AMDphreak/personal-records-vault.svg?style=for-the-badge[Stars]
+image:https://img.shields.io/github/issues/AMDphreak/personal-records-vault.svg?style=for-the-badge[Issues]
+image:https://img.shields.io/github/license/AMDphreak/personal-records-vault.svg?style=for-the-badge[License]
+
 = Personal Records Vault
 
 Local-first, user-held structured personal records with hooks for verifiable credentials, multi-modal indexing, and selective disclosure toward providers and employers.
 
+link:https://github.com/AMDphreak/personal-records-vault/issues[Report Bug] ·
+link:https://github.com/AMDphreak/personal-records-vault/issues[Request Feature]
+
+== About The Project
+
 The primary application shell is an **Electron + SolidJS** desktop app (cross-platform installers). A **WebExtension** companion targets Chromium (Chrome, Edge) and Firefox (MV3). The **marketing and web vault shell** lives in `apps/site` (SolidStart 1 static site for Netlify). An optional **D** CLI remains under `native/cli` for experiments, not the main UI.
 
 WARNING: This repository is experimental research software. It is not a medical device, not a HIPAA compliance product, and not legal advice about health records in your jurisdiction.
+
+=== Built With
+
+* Electron + SolidJS (desktop)
+* SolidStart (marketing / web vault)
+* MV3 WebExtension
+* TypeScript SDK (`@prv/sdk`)
 
 == Changelog
 
@@ -25,12 +48,14 @@ See link:CHANGELOG.adoc[CHANGELOG.adoc] and the link:changelog-details/[changelo
 
 Build the SDK with `pnpm --filter @prv/sdk build` (also runs as part of `pnpm build` at the repo root).
 
-== Prerequisites
+== Getting Started
+
+=== Prerequisites
 
 * https://nodejs.org/[Node.js] 22.x (see also `packageManager` in link:package.json[package.json])
 * https://pnpm.io/[pnpm] 9.x (Corepack can install the pinned version)
 
-== Desktop app (Electron + Solid)
+=== Desktop app (Electron + Solid)
 
 [source,powershell]
 ----
@@ -54,7 +79,7 @@ pnpm dist
 
 Artifacts land in `apps/desktop/release/`.
 
-== Marketing site (SolidStart static, Netlify)
+=== Marketing site (SolidStart static, Netlify)
 
 The static site is built with **SolidStart 1** (`vinxi build`) and emits HTML to `apps/site/.output/public`.
 
@@ -70,7 +95,7 @@ In the Netlify UI, connect the GitHub repository, leave the base directory empty
 
 The `/login` route stores a **session marker** in `sessionStorage` only. The `/app` route uses the **File System Access API** to list a folder you select (for example on a USB drive); nothing is uploaded to Netlify.
 
-== Browser extension
+=== Browser extension
 
 Build output is written to `apps/extension/dist/`.
 
@@ -84,7 +109,7 @@ Load unpacked:
 * *Chrome / Edge:* `chrome://extensions` or `edge://extensions` → Developer mode → *Load unpacked* → select `apps/extension/dist`.
 * *Firefox:* `about:debugging#/runtime/this-firefox` → *Load Temporary Add-on* → pick `apps/extension/dist/manifest.json`.
 
-== Optional D CLI
+=== Optional D CLI
 
 [source,powershell]
 ----
@@ -117,3 +142,18 @@ Codesigning and macOS notarization are not configured yet; expect unsigned macOS
 | `docs/plan/` | Phased implementation plans for unfinished or partial subsystems (start at `index.adoc`)
 | `changelog-details/` | Dated narrative notes linked from the changelog
 |===
+
+== Contributing
+
+Fork the repo, create a feature branch, and open a pull request. See open issues for known gaps and plans under `docs/plan/`.
+
+== License
+
+See the repository `LICENSE` / `LICENSE.txt` file.
+
+== Contact
+
+Ryan Johnson — https://twitter.com/amdphreak[@amdphreak]
+
+* Project: https://github.com/AMDphreak/personal-records-vault
+* Site: https://ryanjohnson.dev
