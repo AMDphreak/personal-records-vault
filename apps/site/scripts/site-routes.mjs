@@ -14,5 +14,5 @@ export function getSitemapRoutes() {
 export function getSiteOrigin() {
   const fromEnv = process.env.URL || process.env.DEPLOY_PRIME_URL || process.env.SITE_ORIGIN;
   if (fromEnv && /^https:\/\//i.test(fromEnv)) return fromEnv.replace(/\/$/, "");
-  return "https://personal-records-vault.netlify.app";
+  return "https://personalrecordvault.netlify.app";
 }

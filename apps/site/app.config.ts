@@ -1,7 +1,6 @@
 import { createRequire } from "node:module";
 import { defineConfig } from "@solidjs/start/config";
 import { getPrerenderRoutes } from "./scripts/site-routes.mjs";
-import "./scripts/write-crawlability.mjs";
 
 const require = createRequire(import.meta.url);
 

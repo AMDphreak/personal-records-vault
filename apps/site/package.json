@@ -5,12 +5,17 @@
   "description": "Marketing + web vault shell (SolidStart 1 static, Netlify).",
   "scripts": {
     "dev": "vinxi dev",
-    "build": "vinxi build",
+    "build": "node ./scripts/write-crawlability.mjs && vinxi build",
     "start": "vinxi start",
     "preview": "vinxi preview"
   },
   "dependencies": {
     "@kobalte/core": "^0.13.11",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-solid": "^0.468.0",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.0",
     "@solidjs/start": "1.3.2",
@@ -23,6 +28,11 @@
     "@veramo/kms-local": "^7.0.0",
     "solid-js": "^1.9.5",
     "vinxi": "^0.5.7"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17"
   },
   "engines": {
     "node": ">=22"

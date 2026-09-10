@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://personal-records-vault.netlify.app/sitemap.xml
+Sitemap: https://personalrecordvault.netlify.app/sitemap.xml
