@@ -18,6 +18,7 @@ All notable changes to this project are documented in this file and in link:chan
 
 * Primary UX stack moved from D to Electron; D prototype relocated to `native/cli`. Details: link:changelog-details/2026-05-12-electron-monorepo.adoc[2026-05-12 — Electron monorepo].
 * Dropped the npm `solid-ui` (SolidOS) dependency from the desktop app; keep **@kobalte/core** on the static site and plain HTML controls in the desktop shell until a deliberate shared design system is chosen.
+* Refreshed deprecated `@xmldom/xmldom` (pulled by `electron-builder` via `plist`) to 0.8.15 and 0.9.12 within existing ranges.
 
 === Fixed
 
