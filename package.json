@@ -11,8 +11,5 @@
     "dev:site": "pnpm --filter @prv/site dev",
     "build:site": "pnpm --filter @prv/site build",
     "preview:site": "pnpm --filter @prv/site preview"
-  },
-  "dependencies": {
-    "core-util-is": "^1.0.3"
   }
 }
