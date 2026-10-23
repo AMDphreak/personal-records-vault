@@ -1,5 +1,7 @@
 <a id="readme-top"></a>
 <div align="center">
+  <a href="https://github.com/AMDphreak/personal-records-vault/tree/main/docs/plan"><img src="https://img.shields.io/badge/Docs-PRV-2C4F7C?style=for-the-badge" alt="Docs | PRV"></a>
+  <a href="https://github.com/AMDphreak/personal-records-vault/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/AMDphreak/personal-records-vault/ci.yml?branch=main&style=for-the-badge&label=CI" alt="CI"></a>
   <a href="https://github.com/AMDphreak/personal-records-vault/graphs/contributors"><img src="https://img.shields.io/github/contributors/AMDphreak/personal-records-vault.svg?style=for-the-badge" alt="Contributors"></a>
   <a href="https://github.com/AMDphreak/personal-records-vault/network/members"><img src="https://img.shields.io/github/forks/AMDphreak/personal-records-vault.svg?style=for-the-badge" alt="Forks"></a>
   <a href="https://github.com/AMDphreak/personal-records-vault/stargazers"><img src="https://img.shields.io/github/stars/AMDphreak/personal-records-vault.svg?style=for-the-badge" alt="Stargazers"></a>
