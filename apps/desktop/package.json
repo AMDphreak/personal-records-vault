@@ -19,7 +19,7 @@
   "devDependencies": {
     "@electron-toolkit/tsconfig": "^2.0.0",
     "@types/node": "^22.19.1",
-    "electron": "^39.2.6",
+    "electron": "^42.11.16",
     "electron-builder": "^26.0.12",
     "electron-vite": "^5.0.0",
     "solid-js": "^1.9.10",
